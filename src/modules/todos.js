@@ -22,7 +22,7 @@ export const toggleTodo = (id) => ({
 // 객체, 배열, 원시타입(숫자, 문자, 불리언) 상관없음
 const initialState = [
     {
-        id: 1,
+        id: 0,
         text: "example",
         done: false
     }

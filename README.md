@@ -253,3 +253,45 @@
     const store = createStore(rootReducer, composeWithDevTools()); // 스토어를 만듭니다.
     // composeWithDevTools 를 사용하여 리덕스 개발자 도구 활성화
 ```
+
+## 7. 할 일 목록 구현하기
+    - useCallback : 메모이제이션된 콜백을 반환
+        - 인라인 콜백과 그것의 의존성 값의 배열을 전달
+        - 콜백의 메모이제이션된 버전을 반환
+        - 그 메모이제이션된 버전은 콜백의 의존성이 변경되었을 때에만 변경
+        - 불필요한 렌더링을 방지
+            - 참조의 동일성에 의존적인 최적화된 자식 컴포넌트에 콜백을 전달할 때 유용
+```javascript
+const memoizedCallback = useCallback (
+    () => {
+        doSomething(a, b);
+    },[a, b],
+);
+```
+        - React.memo : 당신의 컴포넌트가 동일한 props로 동일한 결과를 렌더링 ?
+            - React.memo를 호출하고 결과를 메모이징(Memoizing)하도록 래핑
+            - 경우에 따라 성능 향상을 누릴 수 있습니다. 
+            - React는 컴포넌트를 렌더링하지 않고 마지막으로 렌더링된 결과를 재사용
+            - props 변화에만 영향을 줌
+                - useState, useReducer 또는 useContext 훅을 사용?       
+                    -여전히 state나 context가 변할 때 다시 렌더링
+            - 이 메서드는 오직 성능 최적화를 위하여 사용됨 
+            - 렌더링을 “방지”하기 위하여 사용 X 
+            - 버그를 만들 수 있습니다.
+```javascript
+    const MyComponent = React.memo(function MyComponent(props) {
+        /* props를 사용하여 렌더링 */
+    });
+
+    function MyComponent(props) {
+        /* props를 사용하여 렌더링 */
+    }
+    function areEqual(prevProps, nextProps) {
+        /*
+        nextProp가 prevProps와 동일한 값을 가지면 true를 반환하고, 그렇지 않다면 false를 반환
+        */
+    }
+
+    export default React.memo(MyComponent, areEqual);
+```
+    - 리덕스를 사용한다고 해서 모든 상태를 리덕스에서 관리해야하는 것은 아님

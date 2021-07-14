@@ -40,6 +40,7 @@ const addToList = (item) => ({
 // "불변성"을 꼭 지켜야 한다.
 
 const reducer = (state = initialState, action) => {
+    
     switch (action.type){
         case INCREASE :
             return {
@@ -78,12 +79,21 @@ const listener = () => {
     console.log(state);
 };
   
-  const unsubscribe = store.subscribe(listener);
-  // 구독을 해제하고 싶을 때는 unsubscribe() 를 호출하면 됩니다.
-  
-  // 액션들을 디스패치 해봅시다.
-  store.dispatch(increase());
-  store.dispatch(decrease());
-  store.dispatch(changeText('안녕하세요'));
-  store.dispatch(addToList({ id: 1, text: '와우' }));
-  store.dispatch(addToList({ id: 2, text: '음...' }));
+const unsubscribe = store.subscribe(listener);
+// 구독을 해제하고 싶을 때는 unsubscribe() 를 호출하면 됩니다.
+
+// 액션들을 디스패치 해봅시다.
+store.dispatch(increase());
+store.dispatch(decrease());
+store.dispatch(changeText('안녕하세요'));
+store.dispatch(addToList({ id: 1, text: '와우' }));
+store.dispatch(addToList({ id: 2, text: '음...' }));
+// 직접 액션 객체를 작성할 수 있음
+store.dispatch({
+    type: ADD_TO_LIST,
+    item : {
+        id: 3,
+        text: "돼냐?"
+    }
+});
+store.dispatch(changeText('hi'));

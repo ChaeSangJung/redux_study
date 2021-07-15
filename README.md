@@ -132,7 +132,8 @@
         - 개발자 도구를 통해서 뒤로 돌릴 수도 있고 다시 앞으로 돌릴 수도 있음
     - 리덕스에서 불변성을 유지해야 하는 이유
         - 내부적으로 데이터가 변경 되는 것을 감지하기 위하여 shallow equality 검사를 하기 때문
-        - 객체의 변화를 감지 할 때 객체의 깊숙한 안쪽까지 비교를 하는 것이 아니라 겉핥기 식으로 비교를 하여 좋은 성능을 유지
+        - 객체의 변화를 감지 할 때 객체의 깊숙한 안쪽까지 비교를 하는 것이 아님 
+        - 겉핥기 식으로 비교를 하여 좋은 성능을 유지
         - Immutable.js, Immer.js => 불변성을 유지하며 상태를 관리
 ### 2-3. 변화를 일으키는 함수, 리듀서는 순수한 함수여야 합니다.
     - 리듀서 함수는 이전 상태와, 액션 객체를 파라미터로 받음
@@ -224,8 +225,7 @@
     - 프리젠테이셔널 컴포넌트란?
         - 리덕스 스토어에 직접적으로 접근하지 않고 필요한 값 또는 함수를 props 로만 받아와서 사용하는 컴포넌트
     - useSelector : 리덕스 스토어의 상태를 조회하는 Hook
-        - state의 값은 store.getState() 함수를 호출했을 때 나타나는 
-  결과물과 동일
+        - state의 값은 store.getState() 함수를 호출했을 때 나타나는 결과물과 동일
 ```javascript
     const { number, diff } = useSelector(state => ({
         number: state.counter.number,
@@ -295,3 +295,84 @@ const memoizedCallback = useCallback (
     export default React.memo(MyComponent, areEqual);
 ```
     - 리덕스를 사용한다고 해서 모든 상태를 리덕스에서 관리해야하는 것은 아님
+
+### 강의 번외
+#### 1. redux와 axios 이용하여 api call하기
+    - 액션 타입 정의
+```javascript
+    const SUCCESS = "callApi/SUCCESS";
+    const LOADING = "callApi/LOADING";
+    const ERROR = "callApi/ERROR";
+```
+    - 액션 함수
+```javascript
+    export const callSuccess = (data) => ({
+        type : SUCCESS,
+        data
+    });
+    export const callLoading = (loading) => ({
+        type : LOADING,
+        loading
+    });
+    export const callError = (error) => ({
+        type: ERROR,
+        error
+    });
+```
+    - 초기 상태 선언
+```javascript
+    const initialState = {
+        loading: true,
+        data: null,
+        error: null
+    }
+```
+    - reducer
+```javascript
+    const callAPiReducer = (state = initialState, action) => {
+        switch (action.type) {
+            case LOADING:
+                return {
+                    loading: true,
+                    data: null,
+                    error: null
+                };
+            case SUCCESS:
+                return {
+                    loading: false,
+                    data: action.data,
+                    error: null
+                };
+            case ERROR:
+                return {
+                    loading: false,
+                    data: null,
+                    error: action.error
+                };
+            default:
+                return state;
+        }
+    }
+
+    export default callAPiReducer;
+```
+    - react-redux import
+```javascript
+    import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+```
+    - 모듈에서 액션 함수 불러 오기
+```javascript
+import { callSuccess ,callLoading, callError } from "../../modules/callApi"
+```
+    - dispatch
+```javascript
+    const handleCall = async () => {
+        dispatch(callLoading(true));
+        try {
+            const { data : { results } } = await imgApi.search("cat", 1);
+            dispatch(callSuccess(results));
+        } catch(e) {
+            dispatch(callError(e));
+        }
+    }
+```

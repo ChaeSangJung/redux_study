@@ -25,6 +25,7 @@ const initialState = {
 
 // reducer
 const counter = (state = initialState, action) => {
+    
     switch (action.type) {
         case SET_DIFF :
             return {

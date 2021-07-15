@@ -392,3 +392,55 @@ import { callSuccess ,callLoading, callError } from "../../modules/callApi"
         }
     }
 ```
+    - 2-3. 헤더로 이동, keyword, loading으로 화면 조절
+```javascript
+    // CallApiResultPresenter.js
+    <WrapCats>
+        {data.length === 0 && keyword ? <div>no search result of {keyword}</div> 
+            : !keyword ? <div>input in search</div>
+            : loading ? <div>loading..</div> 
+            : (
+                <>
+                    <div>result of {keyword}</div>
+                    <ListCat>
+                        {data.map((elm)=>(
+                            <ItemCat key={elm.id}>
+                                <BoxImg>
+                                    <img src={elm.urls.regular} alt={elm.alt_description} />
+                                </BoxImg>
+                            </ItemCat>
+                        ))}
+                    </ListCat>
+                </>
+            )
+        }
+        {error ? (<span>{error}</span>) : null}
+    </WrapCats>
+
+    // CallExampleContainer.js
+    const [searchTerm, setSearchTerm] = useState("");
+    
+    const updateTerm = (event) => {
+        const { target : {value} } = event;
+        setSearchTerm(value)
+    }
+
+    const searchByTerm = async () => {
+        dispatch(callLoading(true));
+        try {
+            const { data : { results } } = await imgApi.search(searchTerm);
+            dispatch(callSuccess(results, searchTerm));
+        } catch(e) {
+            dispatch(callError(e));
+        } finally {
+            history.push('/api_1_result');
+        }
+    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if(searchTerm !==""){
+            searchByTerm();
+            setSearchTerm("")
+        }
+    }
+```

@@ -21,6 +21,7 @@ const CallExampleContainer = ({history}) => {
     const dispatch = useDispatch();
     
     const [searchTerm, setSearchTerm] = useState("");
+    
     const updateTerm = (event) => {
         const { target : {value} } = event;
         setSearchTerm(value)

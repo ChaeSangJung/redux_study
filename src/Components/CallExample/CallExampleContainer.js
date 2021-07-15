@@ -17,7 +17,8 @@ const BtnSearch = styled.button`
     vertical-align: top;
 `;
 
-const CallExampleContainer = ({history}) => {
+const CallExampleContainer = ({history, location}) => {
+    const { pathname } = location;
     const dispatch = useDispatch();
     
     const [searchTerm, setSearchTerm] = useState("");
@@ -30,12 +31,14 @@ const CallExampleContainer = ({history}) => {
     const searchByTerm = async () => {
         dispatch(callLoading(true));
         try {
-            const { data : { results } } = await imgApi.search(searchTerm);
-            dispatch(callSuccess(results, searchTerm));
+            const { data : { results, total_pages : totalPages } } = await imgApi.search(searchTerm);
+            dispatch(callSuccess(results, searchTerm, totalPages));
         } catch(e) {
             dispatch(callError(e));
         } finally {
-            history.push('/api_1_result');
+            if(pathname !== '/api_1_result') {
+                history.push('/api_1_result');
+            }
         }
     }
     const handleSubmit = (event) => {

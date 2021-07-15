@@ -444,3 +444,6 @@ import { callSuccess ,callLoading, callError } from "../../modules/callApi"
         }
     }
 ```
+    
+#### 3. todo list
+    - redux-saga, redux-thunk 익혀서 검색 부분 pagenation 구현

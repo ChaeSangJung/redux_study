@@ -13,7 +13,7 @@ export const imgApi = {
     otherApi.get("/search/photos", {
         params: {
             query: encodeURIComponent(term),
-            per_page: 20,
+            per_page: 30,
         }
     })
 }

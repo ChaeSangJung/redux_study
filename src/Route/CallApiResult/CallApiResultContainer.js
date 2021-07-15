@@ -3,14 +3,15 @@ import { useSelector, shallowEqual } from 'react-redux';
 import CallApiResultPresenter from "./CallApiResultPresenter";
 
 const CallApiResultContainer = () => {
-    const { data, error, loading, keyword } = useSelector((state) => (state.callApi),shallowEqual);
-    console.log(data, keyword)
+    const { data, error, loading, keyword, totalPages } = useSelector((state) => (state.callApi),shallowEqual);
+    console.log(totalPages)
     return (
         <CallApiResultPresenter 
             data = {data}
             error = {error}
             loading= {loading}
             keyword={keyword}
+            totalPages={totalPages}
         />
     )
 };

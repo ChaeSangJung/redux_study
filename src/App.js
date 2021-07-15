@@ -1,18 +1,16 @@
-import React from "react";
-import Counter from "./Components/Counter";
-import Todo from "./Components/Todo";
-import CallExample from "./Components/CallExample";
+import React, { Component } from "react";
+import Router from "./Components/Router";
+import GlobalStyles from "./Components/GlobalStyles"
 
-const App = () => {
-  return (
-    <div>
-      <Counter />
-      <hr/>
-      <Todo />
-      <hr/>
-      <CallExample />
-    </div>
-  )
+class App extends Component {
+  render() {
+    return (
+      <>
+        <GlobalStyles />
+        <Router />
+      </>
+    );
+  }
 }
 
 export default App;

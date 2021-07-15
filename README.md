@@ -376,3 +376,19 @@ import { callSuccess ,callLoading, callError } from "../../modules/callApi"
         }
     }
 ```
+#### 2. Router를 이용한 검색창 
+    - 2-1. cats라는 keyword와 1페이지만 보겠다
+    - 2-2. finally에서 결과 리스트를 보여 주는 componet로 이동
+```javascript
+    const handleCall = async () => {
+        dispatch(callLoading(true));
+        try {
+            const { data : { results } } = await imgApi.search("cats", 1);
+            dispatch(callSuccess(results));
+        } catch(e) {
+            dispatch(callError(e));
+        } finally {
+            history.push('/api_1_result');
+        }
+    }
+```

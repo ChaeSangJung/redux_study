@@ -1,32 +1,62 @@
-import React from "react";
-import { useSelector, useDispatch, shallowEqual } from 'react-redux';
+import React, {useState} from "react";
+import { useDispatch } from 'react-redux';
+import { withRouter } from 'react-router-dom';
 import { callSuccess ,callLoading, callError } from "../../modules/callApi"
 import { imgApi } from "../../api";
+import styled from "styled-components";
 
+const WrapSearch = styled.div`
+    float: right;
+`;
+const BoxForm = styled.div`
+    display: inline-block;
+    vertical-align: top;
+`;
+const BtnSearch = styled.button`
+    display: inline-block;
+    vertical-align: top;
+`;
 
-const CallExampleContainer = () => {
-    
-    const { data, error, loading } = useSelector((state) => (state.callApi),shallowEqual);
-    
+const CallExampleContainer = ({history}) => {
     const dispatch = useDispatch();
-    const handleCall = async () => {
-        dispatch(callLoading(true));
-        try {
-            const { data : { results } } = await imgApi.search("cat", 1);
-            dispatch(callSuccess(results));
-        } catch(e) {
-            dispatch(callError(e));
-        }
+    
+    const [searchTerm, setSearchTerm] = useState("");
+    const updateTerm = (event) => {
+        const { target : {value} } = event;
+        setSearchTerm(value)
     }
 
-    console.log(data, error, loading)
-
+    const searchByTerm = async () => {
+        dispatch(callLoading(true));
+        try {
+            const { data : { results } } = await imgApi.search(searchTerm);
+            dispatch(callSuccess(results, searchTerm));
+        } catch(e) {
+            dispatch(callError(e));
+        } finally {
+            history.push('/api_1_result');
+        }
+    }
+    const handleSubmit = (event) => {
+        event.preventDefault();
+        if(searchTerm !==""){
+            searchByTerm();
+            setSearchTerm("")
+        }
+    }
     return (
-        <>
-            <div>call</div>
-            <button onClick={handleCall}>button</button>
-        </>
+        <WrapSearch>
+            <BoxForm>
+                <form onSubmit={handleSubmit}>
+                    <input 
+                        value={searchTerm}
+                        onChange={updateTerm}
+                    />
+                </form>
+            </BoxForm>
+            <BtnSearch onClick={handleSubmit}>검색</BtnSearch>
+        </WrapSearch>
     )
 }
 
-export default CallExampleContainer;
+export default withRouter(CallExampleContainer);

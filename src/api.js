@@ -9,12 +9,11 @@ const otherApi = axios.create({
 });
 
 export const imgApi = {
-    search: (term,pages) => 
+    search: (term) => 
     otherApi.get("/search/photos", {
         params: {
             query: encodeURIComponent(term),
             per_page: 20,
-            page: pages,
         }
     })
 }

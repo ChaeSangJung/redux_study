@@ -4,9 +4,10 @@ const LOADING = "callApi/LOADING";
 const ERROR = "callApi/ERROR";
 
 // 액션 함수 선언
-export const callSuccess = (data) => ({
+export const callSuccess = (data, keyword) => ({
     type : SUCCESS,
-    data
+    data,
+    keyword
 });
 export const callLoading = (loading) => ({
     type : LOADING,
@@ -20,8 +21,9 @@ export const callError = (error) => ({
 // 초기 상태 선언
 const initialState = {
     loading: true,
-    data: null,
-    error: null
+    data: [],
+    error: "",
+    keyword: ""
 }
 
 // reducer
@@ -30,20 +32,23 @@ const callAPiReducer = (state = initialState, action) => {
         case LOADING:
             return {
                 loading: true,
-                data: null,
-                error: null
+                data: [],
+                error: "",
+                keyword: ""
             };
         case SUCCESS:
             return {
                 loading: false,
                 data: action.data,
-                error: null
+                error: "",
+                keyword: action.keyword
             };
         case ERROR:
             return {
                 loading: false,
-                data: null,
-                error: action.error
+                data: [],
+                error: action.error,
+                keyword: ""
             };
         default:
             return state;

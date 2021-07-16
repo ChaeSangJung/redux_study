@@ -444,6 +444,16 @@ import { callSuccess ,callLoading, callError } from "../../modules/callApi"
         }
     }
 ```
-    
-#### 3. todo list
+#### 3. Time Zone
+    - 도시검색
+        - [X] input에 입력
+        - [X] update city name
+        - [X] onChange dispatch        
+        - [] key event up arrow, down arrow (option)
+    - 검색 도시 
+        - [] add
+        - [] delete
+        - [] setting home
+
+#### 4. todo list
     - redux-saga, redux-thunk 익혀서 검색 부분 pagenation 구현

@@ -29,6 +29,9 @@ export default withRouter(() => (
       <Item>
         <SLink to="/">강의 카운터 todo list</SLink>
       </Item>
+      <Item>
+        <SLink to="/TimeZone">Time Zone</SLink>
+      </Item>
     </List>
     <CallExample />
   </Header>

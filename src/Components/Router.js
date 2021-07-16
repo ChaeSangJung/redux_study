@@ -7,7 +7,8 @@ import {
 } from "react-router-dom";
 import Header from "../Components/Header";
 import MainLecture from "../Route/MainLecture";
-import CallApiResult from "../Route/CallApiResult"
+import CallApiResult from "../Route/CallApiResult";
+import TimeZone from "../Route/TimeZone";
 
 const Router = () => {
     return (
@@ -16,6 +17,7 @@ const Router = () => {
             <Switch>
                 <Route path = "/" exact component={MainLecture} />                
                 <Route path = "/api_1_result" exact component={CallApiResult} />
+                <Route path = "/TimeZone" exact component={TimeZone} />
                 <Redirect from="*" to="/" />
             </Switch>
         </Routers>

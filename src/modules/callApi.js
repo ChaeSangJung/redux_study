@@ -33,6 +33,7 @@ const callAPiReducer = (state = initialState, action) => {
     switch (action.type) {
         case LOADING:
             return {
+                ...state,
                 loading: true,
                 data: [],
                 error: "",
@@ -41,6 +42,7 @@ const callAPiReducer = (state = initialState, action) => {
             };
         case SUCCESS:
             return {
+                ...state,
                 loading: false,
                 data: action.data,
                 error: "",
@@ -49,6 +51,7 @@ const callAPiReducer = (state = initialState, action) => {
             };
         case ERROR:
             return {
+                ...state,
                 loading: false,
                 data: [],
                 error: action.error,

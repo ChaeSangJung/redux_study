@@ -450,8 +450,45 @@ import { callSuccess ,callLoading, callError } from "../../modules/callApi"
         - [X] update city name
         - [X] onChange dispatch        
         - [] key event up arrow, down arrow (option)
+```javascript
+    // modules/timezone_search
+    const initialState = {
+        input : "",
+        matchArr : []
+    }
+    // 초기상태를 input(keyword 입력창)
+    // matchArr : db에서 매치된 배열
+
+    // Route/TimeZone/TimeZoneContainer
+    const updateCity = (event) => {
+        const { target : { value } } = event;
+        const regex = new RegExp(value, "gi");
+        
+        // input에 입력을 위한 useState
+        setCityName(value);
+        if(value.length > 0) {
+            // keyword에 매치된 time zones
+            let matchCities = timeZoneCity.filter((zone)=>(zone.match(regex)));
+            // dispatch timezone_search
+            dispatch(changeInput(value, matchCities));
+        }
+
+        const { input : input_state} = useSelector((state) => (state.timezone_search),shallowEqual);
+        // cityName useState
+        // input_state와 cityName은 입력 되었을 때 같다.
+        <input 
+            ...
+            value={input_state ? cityName : ""}
+            ...
+        />
+        // input_state의 값이 있을 때에는 cityName을 보여주고 아니면 지운다.
+
+        // Components/Timezone/ListCites.js 에 뿌려준다.
+    }
+```
     - 검색 도시 
         - [] add
+        
         - [] delete
         - [] setting home
 

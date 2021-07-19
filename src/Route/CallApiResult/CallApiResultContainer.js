@@ -4,7 +4,7 @@ import CallApiResultPresenter from "./CallApiResultPresenter";
 
 const CallApiResultContainer = () => {
     const { data, error, loading, keyword, totalPages } = useSelector((state) => (state.callApi),shallowEqual);
-    console.log(totalPages)
+    
     return (
         <CallApiResultPresenter 
             data = {data}

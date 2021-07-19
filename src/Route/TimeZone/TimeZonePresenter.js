@@ -1,8 +1,11 @@
 import React from "react";
+import { useSelector, shallowEqual } from "react-redux";
 import ListCities from "../../Components/Timezone/ListCites";
+import TimeZoneContainer from "../../Components/Timezone/TimeZoneContainer"
 
-const TimeZonePresenter = ({cityNmae, updateCity, matchCity}) => {
-
+const TimeZonePresenter = ({cityName, updateCity}) => {
+    const { input : input_state} = useSelector((state) => (state.timezone_search),shallowEqual);
+    
     return (
         <>
             <div>Time Zone</div>
@@ -11,18 +14,16 @@ const TimeZonePresenter = ({cityNmae, updateCity, matchCity}) => {
                     <input 
                         type="text"
                         placeholder="city name"
-                        value={cityNmae}
+                        value={input_state ? cityName : ""}
                         onChange={updateCity}
                     />
                 </div>
 
                 <div>
-                    <ListCities 
-                        matchCity={matchCity}
-                    />
+                    <ListCities />
                 </div>
             </div>
-            
+            <TimeZoneContainer/>
         </>
     )
 }

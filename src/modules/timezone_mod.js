@@ -12,6 +12,8 @@ export const addZone = (zoneName) => ({
 // 초기상태 선언
 const initialState = {
     zoneName : [moment.tz.guess()],
+    defaultZone: moment.tz.guess(),
+    defaultOffset: moment.tz(moment.tz.guess()).utcOffset() / 60,
 }
 
 // reducer

@@ -2,43 +2,32 @@ import React, {useState} from "react";
 import { useDispatch } from 'react-redux';
 import { changeInput } from "../../modules/timezone_search";
 import TimeZonePresenter from "./TimeZonePresenter";
-import { useSelector, shallowEqual } from 'react-redux';
 
 import cityZones from "../../Components/cityZones";
 
 const TimeZoneContainer = () => {
-    const { zoneName } = useSelector((state)=>(state.timezone_mod),shallowEqual);
-    console.log(zoneName)
     
     const dispatch = useDispatch();
-    const [cityNmae, setCityName] = useState("");
-    const [matchCity, setMatchCity] = useState([])
+    const [cityName, setCityName] = useState("");
     
     const timeZoneCity = cityZones.map((city)=>(city.fullName));
 
-    const findCities = (city) => {
-        const regex = new RegExp(city, "gi");
-        let matchCities = timeZoneCity.filter((zone)=>(zone.match(regex)));
-        setMatchCity(matchCities);
-    }
-
     const updateCity = (event) => {
         const { target : { value } } = event;
+        const regex = new RegExp(value, "gi");
+        
         setCityName(value);
-        dispatch(changeInput(value));
         if(value.length > 0) {
-            findCities(value);
-        } else {
-            setMatchCity([]);
+            let matchCities = timeZoneCity.filter((zone)=>(zone.match(regex)));
+            dispatch(changeInput(value, matchCities));
         }
     }
 
     return (
         <>
             <TimeZonePresenter 
-                cityNmae={cityNmae}
+                cityName={cityName}
                 updateCity={updateCity}
-                matchCity= {matchCity}
             />
         </>
     )

@@ -2,19 +2,23 @@ import React from "react";
 import ItemCities from "./ItemCities";
 import { useSelector, shallowEqual } from 'react-redux';
 
-const ListCities= ({matchCity}) => {
-    const { input : serched_city } = useSelector((state)=>(state.timezone_search),shallowEqual);
+const ListCities= () => {
+    const { input : serched_city, matchArr } = useSelector((state)=>(state.timezone_search),shallowEqual);
     
     return (
         <>
-            {matchCity && (
+            {matchArr && (
                 <ul>
-                    {matchCity.map((city, index)=>(                        
-                        <ItemCities key={index} city={city}/>
+                    {matchArr.map((city, index)=>(
+                        <ItemCities 
+                            key={index}
+                            city={city}
+                        />
                     ))}
-                    {matchCity.length === 0 && serched_city && (
+                    {matchArr.length === 0 && serched_city && (
                         <li>no result</li>
                     )}
+
                 </ul>
             )}
         </>
